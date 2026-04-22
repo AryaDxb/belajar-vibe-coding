@@ -3,14 +3,14 @@ import { db } from './db';
 import { users } from './db/schema';
 
 const app = new Elysia()
-  .get('/', () => ({ message: 'Hello Elysia' }))
+  .get('/', () => 'Hello from ElysiaJS! Server is up and running.')
   .get('/users', async () => {
     try {
       const allUsers = await db.select().from(users);
-      return allUsers;
+      return { success: true, data: allUsers };
     } catch (error) {
       console.error(error);
-      return { error: 'Gagal mengambil data user' };
+      return { success: false, error: 'Failed to fetch users. Ensure DB is running.' };
     }
   })
   .listen(3000);
